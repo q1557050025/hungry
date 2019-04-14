@@ -1,0 +1,25 @@
+@import './params.scss';
+
+@mixin wh($width, $height) {
+	width: $width;
+	height: $height;
+}
+
+@mixin sclh($size, $color,$lineHeight:$size) {
+	font-size: $size;
+	color: $color;
+	line-height: $lineHeight;
+}
+
+@mixin fj($type:space-between) {
+	display: flex;
+	justify-content: $type;
+}
+
+@function rem2px($rem) {
+	@return $rem * 23.4375px;
+}
+
+@mixin devborder() {
+	border: 1px solid red;
+}
