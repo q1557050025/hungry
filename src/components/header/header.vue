@@ -7,7 +7,9 @@
 		justify="space-between">
 		<van-col span="6">
 			<span class="header_logo_title" v-if="headerItem.logo.title">饿了么</span>
-			<span class="header_logo_goBack"  v-if="headerItem.logo.goBack">
+			<span class="header_logo_goBack"  
+				v-if="headerItem.logo.goBack"
+				@click="$router.go(-1)">
 				<svg width="20px" height="20px">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#goBack"></use>	
 				</svg>

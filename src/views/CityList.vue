@@ -26,19 +26,25 @@
           </router-link>
       </ul>
     </section>
-    <section class="city_group">
+    <van-list 
+			v-model="loading"
+			:finished="finished"
+			finished-text="没有更多了"
+      @load="onLoad"
+      :immediate-check="false"
+      class="city_group">
       <ul 
-        v-for="(cities, key) in sortedCityGroup" :key="key"
+        v-for="(cities, index) in asyncCityGroup" :key="index"
         class="city_group_list">
-          <h4 class="city_group_title">{{key}}
-            <span v-if="key === 'A'">(按字母顺序排列)</span>
+          <h4 class="city_group_title">{{asyncCityGroup[index].key}}
+            <span v-if="asyncCityGroup[index].key === 'A'">(按字母顺序排列)</span>
           </h4>
           <router-link 
             v-for="(city, index) in cities" :key="index"    
             :to="'/city/'+ city.id"
             tag="li">{{city.name}}</router-link>
       </ul>
-    </section>
+    </van-list>
   </div>
 </template>
 
@@ -53,37 +59,59 @@ export default {
   },
   data() {
     return {
-      cityGroup: {},
+      cityGroup: null,
       hotCities: [],
       cityGuess: '',
       cityGuessId: '',
       headerItem: {logo:{title:true}, signUp:true},
+      loading: false,
+      finished: false,
+      asyncCityGroup:[],
     }
   },
-  computed: {
+  methods: {
+		//vant list 滚动条滚动时调用, 异步渲染新的地址
+    onLoad() {
+      console.log(this.cityGroup)
+      console.log(this.cityGroup[0].key)
+			for (let i = 0; i < 3; i++) {
+				this.asyncCityGroup = this.cityGroup.slice(0,this.asyncCityGroup.length+1)
+			}
+      // 加载状态结束
+			this.loading = false;
+			//   // 数据全部加载完成
+      if (this.asyncCityGroup[this.asyncCityGroup.length - 1].key === 'Z') {
+        this.finished = true;
+			}
+		},
     sortedCityGroup() {
-      let res = {}
+      let res = []
       for(let i = 65 ; i <= 90; i++) {
         if(this.cityGroup[String.fromCharCode(i)]) {
-          res[String.fromCharCode(i)] = this.cityGroup[String.fromCharCode(i)]
+          res[i-65] = this.cityGroup[String.fromCharCode(i)]
+          res[i-65].key = String.fromCharCode(i)
+        }else{
+          res[i-65] = []
+          res[i-65].key = String.fromCharCode(i)
         }
       }
-      return res
-    }
+      this.cityGroup = res
+    },
+  },
+  computed: {
   },
   mounted() {
     hotCities().then(res => {
       this.hotCities = res
-      console.log(this.hotCities)
     })
     cityGuess().then(res => {
       this.cityGuess = res.name
       this.cityGuessId = res.id
-      console.log(this.cityGuess, this.cityGuessId)
     })
     cityGroup().then(res => {
       this.cityGroup = res
-      console.log(this.cityGroup)
+      this.sortedCityGroup()
+      this.onLoad()
     })
   }
 }

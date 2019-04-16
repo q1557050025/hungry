@@ -1,7 +1,7 @@
 // 获取localStorage
 export const getStore = val => {
 	if(!val) return
-	return window.localStorage.getItem(val)
+	return JSON.parse(window.localStorage.getItem(val))
 }
 
 export const setStore = (key, val) => {
@@ -12,3 +12,7 @@ export const setStore = (key, val) => {
 	return window.localStorage.setItem(key, val)
 }
 
+export const removeStore = val => {
+	if(!val) return 
+	window.localStorage.removeItem(val)
+}
