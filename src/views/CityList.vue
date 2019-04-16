@@ -59,21 +59,20 @@ export default {
   },
   data() {
     return {
-      cityGroup: null,
-      hotCities: [],
-      cityGuess: '',
-      cityGuessId: '',
-      headerItem: {logo:{title:true}, signUp:true},
-      loading: false,
-      finished: false,
-      asyncCityGroup:[],
+      cityGroup: {}, //所有城市
+      hotCities: [], //热门城市列表
+      cityGuess: '', //所在地城市
+      cityGuessId: '', //所在地城市ID
+      headerItem: {logo:{title:true}, signUp:true}, //header组件依赖
+      loading: false,//vantlist 依赖
+      finished: false,//vantlist 依赖
+      asyncCityGroup:[], //异步渲染城市列表
     }
   },
   methods: {
 		//vant list 滚动条滚动时调用, 异步渲染新的地址
     onLoad() {
-      console.log(this.cityGroup)
-      console.log(this.cityGroup[0].key)
+      console.log('渲染新数据')
 			for (let i = 0; i < 3; i++) {
 				this.asyncCityGroup = this.cityGroup.slice(0,this.asyncCityGroup.length+1)
 			}
@@ -84,7 +83,8 @@ export default {
         this.finished = true;
 			}
 		},
-    sortedCityGroup() {
+    //讲所有城市按字母排序
+    sortCityGroup() {
       let res = []
       for(let i = 65 ; i <= 90; i++) {
         if(this.cityGroup[String.fromCharCode(i)]) {
@@ -98,8 +98,6 @@ export default {
       this.cityGroup = res
     },
   },
-  computed: {
-  },
   mounted() {
     hotCities().then(res => {
       this.hotCities = res
@@ -110,7 +108,7 @@ export default {
     })
     cityGroup().then(res => {
       this.cityGroup = res
-      this.sortedCityGroup()
+      this.sortCityGroup()
       this.onLoad()
     })
   }
