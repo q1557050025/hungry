@@ -17,7 +17,7 @@ export default new Router({
       component: () => import('./views/CityList.vue')
     },
     {
-      path: '/City/:cityid',
+      path: '/City/:cityId',
       name: 'City',
       component: () => import('./views/City.vue')
     },

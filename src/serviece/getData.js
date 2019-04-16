@@ -12,3 +12,4 @@ export const cityGuess = () => fetch('/v1/cities', {
 	type: 'guess'
 })
 
+export const currentCity = (num) => fetch('/v1/cities/'+ num)

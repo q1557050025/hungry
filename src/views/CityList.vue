@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Header singin-up="home">
-      <span slot="logo"  class="header-logo">饿了么</span>
-    </Header>
+    <Header :headerItem="headerItem"></Header>
     <nav class="city-nav">
       <div class="city_tip">
         <span>当前定位城市:</span>
@@ -59,6 +57,7 @@ export default {
       hotCities: [],
       cityGuess: '',
       cityGuessId: '',
+      headerItem: {logo:{title:true}, signUp:true},
     }
   },
   computed: {
@@ -114,12 +113,6 @@ export default {
     }
   }
 
-  .header-logo {
-    @include sclh(16px, #fff, 45px);
-    @include wh(54px, 16.5px);
-    margin-left: rem2px(.4);
-    font-weight: 400;
-  }
   .city-nav {
     .city_tip {
       @include fj;
