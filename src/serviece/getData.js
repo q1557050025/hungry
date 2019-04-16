@@ -13,3 +13,10 @@ export const cityGuess = () => fetch('/v1/cities', {
 })
 
 export const currentCity = (num) => fetch('/v1/cities/'+ num)
+
+
+export const searchPlace = (cityid, value) => fetch('/v1/pois', {
+	type: 'search',
+	city_id: cityid,
+	keyword: value
+});

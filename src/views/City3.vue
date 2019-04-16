@@ -12,23 +12,18 @@
 			</van-search>
 			<div slot="action" class="city_form_submit" @click="onSearch">提交</div>
 			<van-list
-				
-				v-if="this.placeList.length"
+				ref="list"
 				v-model="loading"
 				:finished="finished"
 				finished-text="没有更多了"
-				:immediate-check="false"
-				tag="ul"
 				@load="onLoad">
-				<li 
-					:key="index"	
-					class="city_place" 
-					v-for="(item, index) in placeListAsync">
-					<router-link to="/cityList">
-						<h4>{{item.name}}</h4>
-						<h6>{{item.address}}</h6>
-					</router-link>
-				</li>
+				<router-link 
+					to="/cityList"
+					v-for="(item, index) in placeListAsync" :key="index"
+					class="city_place">
+					<h4>{{item.name}}</h4>
+					<h6>{{item.address}}</h6>
+				</router-link>
 			</van-list>
 		</form>
 	</div>
@@ -44,7 +39,6 @@ export default {
 	},
 	data() {
 		return {
-			promise: null,
 			cityId: null,
 			place: '',
 			placeList: [],
@@ -65,34 +59,45 @@ export default {
 	},
 	methods: {
 		onSearch() {
-			if(this.palce !== '') {
-				searchPlace(this.cityId, this.place).then(res => {
-					if(res.name === "ERROR_QUERY_TYPE") {
-						this.placeList = []
-					}else {
-						this.placeList = res
-					}
-					console.log('res',this.placeList)
-					this.onLoad()
-				})
-			}else {
-				this.placeList = []
-				this.placeListAsync = []
-        this.finished = false;
-			}
+			this.onLoad()
 		},
     onLoad() {
-			for (let i = 0; i < 5; i++) {
-				this.placeListAsync = this.placeList.slice(0,this.placeListAsync.length+1)
-			}
-			console.log(this.placeList)
-			console.log(this.placeListAsync)
-      // 加载状态结束
-			this.loading = false;
+			let list = []
+			searchPlace(this.cityId, this.place).then(res => {
+				if(res.length) {
+					list = res
+				}else{
+					list = []
+				}
+			}).then(() => {for(let i = 0; i < 6; i++) {
+						let len =  this.placeListAsync.length - 0
+						console.log('len',len)
+						this.placeListAsync = list.slice(0,len + 1)
+					console.log('list', list)
+					console.log('this.placeListAsync', this.placeListAsync)
+					}
+				}
+			)
+			console.log('ref',this.$refs.list.check)
+			this.loading = false
+			// 异步更新数据
+      // setTimeout(() => {
+			// 	if(this.placeList.length) {
+			// 		for (let i = 0; i < 7; i++) {
+			// 			if(this.placeList[this.placeListAsync.length]){
+			// 				this.placeListAsync = this.placeList.slice(this.placeListAsync.length)
+			// 			}
+			// 		}
+			// 	}else {
+			// 		this.placeListAsync = []
+			// 	}
+      //   // 加载状态结束
+      //   this.loading = false;
       //   // 数据全部加载完成
-      if (this.placeListAsync.length >= this.placeList.length) {
-        this.finished = true;
-			}
+      //   if (this.placeListAsync.length >= this.placeList.length) {
+      //     this.finished = true;
+      //   }
+      // }, 500);
     }
 	}
 }
@@ -127,9 +132,8 @@ export default {
 			}
 		}
 		&_place {
-			@include wh(375px, 200px);
+			@include wh(375px, 100px);
 			border: solid 1px $bdc;
-			background-color: orange;
 		}
 	}
 </style>
