@@ -49,7 +49,6 @@
 import Header from '../components/header/header'
 import {currentCity,searchPlace} from '../serviece/getData.js'
 import {getStore, setStore, removeStore} from '../config/mUtils.js'
-import {data} from '../serviece/getData.js'
 
 export default {
 	components: {
@@ -66,7 +65,6 @@ export default {
 			headerItem: {logo:{goBack:true},title:'出错',changeCity:true}, //header组件数据
 			loading: false, // vant list依赖, 是否显示正在加载
 			finished: false, // vant list依赖, 加载是否已经完成
-			demoData:null,//测试数据 无关
 		}
 	},
 	mounted() {
@@ -78,10 +76,6 @@ export default {
 		if(getStore("placeHistory")) {
 			this.placeHistory = getStore("placeHistory")
 		}
-		data().then(res => {
-			this.demoData = res
-			console.log('data',this.demoData)
-		})
 	},
 	methods: {
 		// 输入地址时调用, 查询地址

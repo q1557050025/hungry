@@ -1,5 +1,4 @@
 import fetch from '../config/fetch.js'
-import demo from '../config/demo.js'
 
 export const hotCities = () => fetch('/v1/cities', {
 	type: 'hot'
@@ -21,5 +20,3 @@ export const searchPlace = (cityid, value) => fetch('/v1/pois', {
 	city_id: cityid,
 	keyword: value
 });
-
-export const data = () => demo()
