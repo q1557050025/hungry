@@ -51,7 +51,6 @@
 <script>
 import {hotCities, cityGroup, cityGuess} from '../serviece/getData.js'
 import Header from '../components/header/header.vue'
-
 export default {
   name: 'home',
   components: {
