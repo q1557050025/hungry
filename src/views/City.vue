@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Header :headerItem="headerItem"></Header>
+		<Header :headerOptions="headerOptions"></Header>
 		<form action="/" class="city_form">
 			<van-search
 				class="city_form_search"
@@ -62,7 +62,7 @@ export default {
 			placeListAsync: [], //用于异步渲染的地址列表
 			placeHistory: [], //历史地址列表
 			currentCity: null, //当前城市数据
-			headerItem: {logo:{goBack:true},title:'出错',changeCity:true}, //header组件数据
+			headerOptions: {logo:{goBack:true},title:'出错',changeCity:true}, //header组件数据
 			loading: false, // vant list依赖, 是否显示正在加载
 			finished: false, // vant list依赖, 加载是否已经完成
 		}
@@ -71,7 +71,7 @@ export default {
 		this.cityId = this.$route.params.cityId
 		currentCity(this.cityId).then(res => {
 			this.currentCity = res
-			this.headerItem.title = this.currentCity.name
+			this.headerOptions.title = this.currentCity.name
 		})
 		if(getStore("placeHistory")) {
 			this.placeHistory = getStore("placeHistory")
@@ -81,7 +81,6 @@ export default {
 		// 输入地址时调用, 查询地址
 		onSearch() { 
 			if(this.place.length > 0){
-				console.log('place',this.place)
 				searchPlace(this.cityId, this.place).then(res => {
 					if(res.name === "ERROR_QUERY_TYPE") {
 						this.placeList = []

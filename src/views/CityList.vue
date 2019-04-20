@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :headerItem="headerItem"></Header>
+    <Header :headerOptions="headerOptions"></Header>
     <nav class="city-nav">
       <div class="city_tip">
         <span>当前定位城市:</span>
@@ -62,7 +62,7 @@ export default {
       hotCities: [],
       cityGuess: '',
       cityGuessId: '',
-      headerItem: {logo:{title:true}, signUp:true},
+      headerOptions: {logo:{title:true}, signUp:true},
       loading: false,
       finished: false,
       asyncCityGroup:[],

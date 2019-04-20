@@ -6,30 +6,33 @@
 		type="flex" 
 		justify="space-between">
 		<van-col span="6">
-			<span class="header_logo_title" v-if="headerItem.logo.title">饿了么</span>
+			<span class="header_logo_title" v-if="headerOptions.logo.title">饿了么</span>
 			<span class="header_logo_goBack"  
-				v-if="headerItem.logo.goBack"
+				v-if="headerOptions.logo.goBack"
 				@click="$router.go(-1)">
 				<svg width="20px" height="20px">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#goBack"></use>	
 				</svg>
 			</span>
+			<span class="header_log_search" v-if="headerOptions.logo.search">
+
+			</span>
 		</van-col>
-		<van-col span="12" v-if="headerItem.title" class="header_title_wrap">
-			<span class="header_title" v-if="headerItem.title" v-textScroll>
-				{{headerItem.title}}
+		<van-col span="12" v-if="headerOptions.title" class="header_title_wrap">
+			<span class="header_title" v-if="headerOptions.title" v-textScroll>
+				{{headerOptions.title}}
 			</span>				
 		</van-col>
 		<van-col span="6" class="header_login_wrap">
 			<router-link 
 				class="header_login"
 				:to="false ? '/profile': '/login'" 
-				v-if="headerItem.signUp">
+				v-if="headerOptions.signUp">
 				<span class="header_login_span">登录|注册</span>	
 			</router-link>
 			<router-link 
 				to="/cityList"
-				v-if="headerItem.changeCity">
+				v-if="headerOptions.changeCity">
 				<span class="header_changeCity">切换城市</span>
 			</router-link>		
 		</van-col>
@@ -48,8 +51,9 @@ export default {
 
 	},
 	directives: {
+		//字体超出容器,自动滚动显示
 		textScroll: {
-			inserted(el) {
+			componentUpdated(el) {
 				var count = 0
 				var width = el.scrollWidth-el.offsetWidth
 				if(!width) return 
@@ -65,7 +69,7 @@ export default {
 							setTimeout(() => {
 								el.scroll({
 									left: 0,
-									behavior: "auto"
+									behavior: "smooth"
 								})
 								count = 0
 								setTimeout(() => {scroll(width)}, 1000)
@@ -78,7 +82,7 @@ export default {
 		}
 	},
 	props: {
-		headerItem: {type:Object},
+		headerOptions: {type:Object},
 	},
 	mounted() {
 
