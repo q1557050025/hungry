@@ -21,5 +21,10 @@ export default new Router({
       name: 'City',
       component: () => import('./views/City.vue')
     },
+    {
+      path: '/Home/:geohash',
+      name: 'Home',
+      component: () => import('./views/Home.vue')
+    },
   ]
 })

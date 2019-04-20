@@ -117,6 +117,7 @@ export default {
 				this.placeHistory.push(item)
 			}
 			setStore('placeHistory', this.placeHistory)
+			this.$router.push('/Home/' + item.geohash)
 		},
 		// 清楚所有本地地址的历史记录
 		clearLocalStorage() {
@@ -163,6 +164,7 @@ export default {
 				font-weight: 700;
 			}
 		}
+		
 		&_place {
 			padding-top: 15px;
 			padding-left: 17px;

@@ -71,8 +71,6 @@ export default {
   methods: {
 		//vant list 滚动条滚动时调用, 异步渲染新的地址
     onLoad() {
-      console.log(this.cityGroup)
-      console.log(this.cityGroup[0].key)
 			for (let i = 0; i < 3; i++) {
 				this.asyncCityGroup = this.cityGroup.slice(0,this.asyncCityGroup.length+1)
 			}

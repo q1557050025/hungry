@@ -16,7 +16,7 @@
 			</span>
 		</van-col>
 		<van-col span="12" v-if="headerItem.title" class="header_title_wrap">
-			<span class="header_title" v-if="headerItem.title">
+			<span class="header_title" v-if="headerItem.title" v-textScroll>
 				{{headerItem.title}}
 			</span>				
 		</van-col>
@@ -40,11 +40,42 @@
 import Vue from 'vue'
 import Vant from 'vant'
 import 'vant/lib/index.css'
+import { setInterval, clearInterval, setTimeout } from 'timers';
 
 Vue.use(Vant);
-
 export default {
 	components: {
+
+	},
+	directives: {
+		textScroll: {
+			inserted(el) {
+				var count = 0
+				var width = el.scrollWidth-el.offsetWidth
+				if(!width) return 
+				function scroll(width){
+					var interval = setInterval(() => {
+						count += 1
+						el.scroll({
+							left: count,
+							behavior: 'smooth'
+						})
+						if( count > width) {
+							clearInterval(interval)
+							setTimeout(() => {
+								el.scroll({
+									left: 0,
+									behavior: "auto"
+								})
+								count = 0
+								setTimeout(() => {scroll(width)}, 1000)
+							}, 1000)
+						}
+					},30)
+				}
+				scroll(width)
+			}
+		}
 	},
 	props: {
 		headerItem: {type:Object},
@@ -86,6 +117,8 @@ export default {
 			}
 			@include sclh(18.75px,#fff, 45px);
 			font-weight: 700;
+			white-space: nowrap;
+			overflow: auto;
 		}
 
 		&_login {
