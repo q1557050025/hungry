@@ -27,9 +27,24 @@ export default new Router({
       component: () => import('./views/Home.vue')
     },
     {
-      path: '/ShopFilter/',
+      path: '/Search',
+      name: 'Search',
+      component: () => import('./views/Search.vue')
+    },
+    {
+      path: '/Order',
+      name: 'Order',
+      component: () => import('./views/Order.vue')
+    },
+    {
+      path: '/User',
+      name: 'User',
+      component: () => import('./views/User.vue')
+    },
+    {
+      path: '/ShopFilter',
       name: 'ShopFilter',
-      component: () => import('./views/ShopFilter.vue')
+      component: () => import('./views/ShopFilter.vue'),
     },
   ]
 })
