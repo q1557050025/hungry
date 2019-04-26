@@ -1,7 +1,7 @@
 <template>
 	<van-list v-model="vanListOptions.loading" :finished="vanListOptions.finished" finished-text="没有更多了"
 		:immediate-check="false" class="shop" @load="vanListLoad">
-		<router-link to="/shop/" class="shop_item" v-for="(item, index) in vanListOptions.list" :key="index">
+		<router-link to="/shop" class="shop_item" v-for="(item, index) in vanListOptions.list" :key="index">
 			<lazy-component>
 				<img v-lazy="'//elm.cangdu.org/img/' + item.image_path" class="shop_logo">
 			</lazy-component>
@@ -16,7 +16,7 @@
 				<h4 class="shop_details_h">
 					<section class="shop_details_rate">
 						<van-rate v-model="item.rating" :size="4"></van-rate>
-						<span>{{item.rating}}</span><span>月售{{item.recent_order_num}}单</span>
+						<span>{{item.rating}}</span> &ensp; <span>月售{{item.recent_order_num}}单</span>
 					</section>
 					<section class="shop_details_delivery">
 						<span v-if="item.delivery_mode"
@@ -160,6 +160,7 @@
 				@include wh(28.7px, 14px);
 				@include sclh(14px, #333, 14px);
 				font-weight: 700;
+				white-space: nowrap;
 			}
 
 			&_name {

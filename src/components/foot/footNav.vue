@@ -52,7 +52,7 @@
 export default {
 	methods: {
 		linkTo(url) {
-			this.$router.push({path:url, query:{id:1}})
+			this.$router.push({path:url})
 		}
 	}
 }

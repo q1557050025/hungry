@@ -83,21 +83,20 @@
 				getDataDone: false,
 			}
 		},
-		async beforeMount() {
-			if (!this.$route.params.geohash) {
-				const cityAddress = await cityGuess()
-				this.geohash = cityAddress.latitude + ',' + cityAddress.longitude
-			} else{
-				this.geohash = this.$route.params.geohash
-			}
-			//保存geohash到vuex
-			this.saveGeohash(this.geohash)
-			let address = await getAddressByGeohash(this.geohash)
-			this.headerOptions.title = address.address
-			this.saveAddress(address)
-			this.getDataDone = true
-		},
-		
+		// async beforeMount() {
+		// 	if (!this.$route.params.geohash) {
+		// 		const cityAddress = await cityGuess()
+		// 		this.geohash = cityAddress.latitude + ',' + cityAddress.longitude
+		// 	} else{
+		// 		this.geohash = this.$route.params.geohash
+		// 	}
+		// 	//保存geohash到vuex
+		// 	this.saveGeohash(this.geohash)
+		// 	let address = await getAddressByGeohash(this.geohash)
+		// 	this.headerOptions.title = address.address
+		// 	this.saveAddress(address)
+		// 	this.getDataDone = true
+		// },
 		mounted() {
 			getFoodTypesByGeohash(this.geohash).then(res => {
 				let resArr = [...res]
@@ -113,36 +112,46 @@
 				this.$router.push('/ShopFilter/')
 			},
 
-			// setGeohash(data) {
-			// 	console.log('data', data)
-			// 	this.geohash = data.latitude + ',' + data.longitude
-			// },
-			// setData() {
-			// 	this.geohash = this.$route.params.geohash
-			// 	console.log(this.geohash)
-			// },
-		}
-		// 改写路由加载前加载数据(未完成)
-		// beforeRouteEnter(to, from, next) {
-		// 	// if(!to.params.geohash) {
-		// 	// 	cityGuess().then(res => {
-		// 	// 		next(vm => {
-		// 	// 			vm.geohash = res.latitude + ',' + res.longitude
-		// 	// 		})
-		// 	// 	})
-		// 	// }else {
-		// 	// 	next(vm => vm.setData())
-		// 	// }
-		// 	if(!to.params.geohash) {
-		// 		console.log(22)
-		// 		cityGuess().then(res => {
-		// 			next(vm => vm.setGeohash(res))
-		// 		})
-		// 	}else {
-		// 		console.log(11)
-		// 		next(vm => vm.setData())
-		// 	}
-		// },
+			setGeohash(data) {
+				this.geohash = data.latitude + ',' + data.longitude
+			},
+			setData() {
+				this.geohash = this.$route.params.geohash
+			},
+			async saveGeohashToVuex() {
+							//保存geohash到vuex
+				this.saveGeohash(this.geohash)
+				let address = await getAddressByGeohash(this.geohash)
+				this.headerOptions.title = address.address
+				this.saveAddress(address)
+				this.getDataDone = true
+			}
+		},
+		// 改写路由加载前加载数据
+		beforeRouteEnter(to, from, next) {
+			// if(!to.params.geohash) {
+			// 	cityGuess().then(res => {
+			// 		next(vm => {
+			// 			vm.geohash = res.latitude + ',' + res.longitude
+			// 		})
+			// 	})
+			// }else {
+			// 	next(vm => vm.setData())
+			// }
+			if(!to.params.geohash) {
+				cityGuess().then(res => {
+					next(vm => {
+						vm.setGeohash(res)
+						vm.saveGeohashToVuex()
+					})
+				})
+			}else {
+				next(vm => {
+					vm.setData()
+					vm.saveGeohashToVuex()
+				})
+			}
+		},
 	}
 </script>
 
