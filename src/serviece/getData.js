@@ -52,3 +52,10 @@ export const shopList = (options) => {
 	};
 	return fetch('/shopping/restaurants', data);
 };
+
+export const searchRestaurant = (geohash, keyword) => fetch('/v4/restaurants', {
+	'extras[]': 'restaurant_activity',
+	geohash,
+	keyword,
+	type: 'search'
+});
