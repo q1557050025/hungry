@@ -1,25 +1,38 @@
 <template>
 	<div id="search" class="search">
-		<div class="search_input_wrap">
-			<span class="search_input_icon">
-				<svg t="1556266593130"
-					style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2105"
-					xmlns:xlink="http://www.w3.org/1999/xlink">
-					<path
-						d="M952.2 911.2L753 712c57.3-68.6 91.8-156.7 91.8-252.9 0-225-189.1-406.7-416.7-394.6-200.3 10.7-362.3 172.8-373 373.2C43 665.3 224.7 854.3 449.7 854.3c18.4 0 36.5-1.3 54.3-3.8 17.9-2.5 28.6-21.3 21.3-37.9-4.9-11.2-16.7-17.6-28.9-15.9-15.3 2.1-30.8 3.2-46.7 3.2-193.3 0-349.6-161.8-340.4-357.1 8.2-174.4 149.7-316 324.2-324.1 195.3-9.1 357.1 147.1 357.1 340.4 0 118.9-61.3 223.8-153.9 284.7-10.9 7.2-14.8 21.4-9.6 33.4v0.1c6.7 15.3 25.7 21.1 39.7 11.9 17.2-11.4 33.5-24.1 48.7-37.9l198.3 198.4c5.3 5.3 12.3 8 19.2 8 7 0 13.9-2.7 19.2-8 10.6-10.7 10.6-27.9 0-38.5z"
-						p-id="2106" fill="#cdcdcd"></path>
-				</svg>
-			</span>
-			<input type="text" class="search_input_text" v-model="searchValue">
-			<span class="search_input_cancel" v-if="searchValue" @click="onCancel">
-				<svg t="1556267945083" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3217"
-					xmlns:xlink="http://www.w3.org/1999/xlink" >
-					<path
-						d="M513.43007 1019.262092c-280.20375 0-507.388982-227.207745-507.388982-507.410472 0-280.224216 227.185232-507.409448 507.388982-507.409448 280.247752 0 507.391029 227.185232 507.391029 507.409448C1020.821099 792.054347 793.678846 1019.262092 513.43007 1019.262092zM746.107387 363.903034c9.540284-9.53926 9.540284-25.021883 0-34.539654l-51.822272-51.800783c-9.535167-9.558703-24.977881-9.558703-34.518165 0L512.976746 424.334381 366.184495 277.562597c-9.53619-9.558703-24.977881-9.558703-34.518165 0l-51.822272 51.800783c-9.538237 9.517771-9.538237 25.001417 0 34.539654l146.793274 146.770761-146.793274 146.790204c-9.538237 9.518794-9.538237 25.004487 0 34.540677l51.822272 51.79976c9.540284 9.538237 24.981974 9.538237 34.518165 0L512.976746 597.014232l146.790204 146.790204c9.540284 9.538237 24.982998 9.538237 34.518165 0l51.822272-51.79976c9.540284-9.53619 9.540284-25.021883 0-34.540677L599.317183 510.674818 746.107387 363.903034z"
-						p-id="3218" fill="#cdcdcd"></path>
-				</svg>
-			</span>
-		</div>
+		<header class="search_header">
+			<transition name="search_back">
+				<span class="search_back" v-show="focused" >
+					<svg t="1556285307287"
+						class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1960"
+						xmlns:xlink="http://www.w3.org/1999/xlink" >
+						<path
+							d="M721.226 845.716l-330.925-336.576 328.476-341.301c8.349-8.349 8.124-22.074-0.5-30.65l-59.175-59.175c-8.6-8.574-22.325-8.825-30.675-0.474l-334.326 347.4c-4.425 0.775-8.751 2.499-12.174 5.95l-59.775 59.75c-8.7 8.675-8.9 22.524-0.5 30.925l408.351 415.35c8.425 8.425 22.275 8.2 30.95-0.474l59.775-59.8c8.65-8.65 8.9-22.524 0.5-30.925z"
+							p-id="1961" fill="#dbdbdb"></path>
+					</svg>
+				</span>
+			</transition>
+			<div class="search_input_wrap">
+				<span class="search_input_icon"> 
+					<svg t="1556266593130"
+						style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2105"
+						xmlns:xlink="http://www.w3.org/1999/xlink">
+						<path
+							d="M952.2 911.2L753 712c57.3-68.6 91.8-156.7 91.8-252.9 0-225-189.1-406.7-416.7-394.6-200.3 10.7-362.3 172.8-373 373.2C43 665.3 224.7 854.3 449.7 854.3c18.4 0 36.5-1.3 54.3-3.8 17.9-2.5 28.6-21.3 21.3-37.9-4.9-11.2-16.7-17.6-28.9-15.9-15.3 2.1-30.8 3.2-46.7 3.2-193.3 0-349.6-161.8-340.4-357.1 8.2-174.4 149.7-316 324.2-324.1 195.3-9.1 357.1 147.1 357.1 340.4 0 118.9-61.3 223.8-153.9 284.7-10.9 7.2-14.8 21.4-9.6 33.4v0.1c6.7 15.3 25.7 21.1 39.7 11.9 17.2-11.4 33.5-24.1 48.7-37.9l198.3 198.4c5.3 5.3 12.3 8 19.2 8 7 0 13.9-2.7 19.2-8 10.6-10.7 10.6-27.9 0-38.5z"
+							p-id="2106" fill="#cdcdcd"></path>
+					</svg>
+				</span>
+				<input type="text" class="search_input_text" v-model="searchValue" @focus="onFocus" @blur="onBlur">
+				<span class="search_input_cancel" v-if="searchValue" @click="onCancel">
+					<svg t="1556267945083" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3217"
+						xmlns:xlink="http://www.w3.org/1999/xlink" >
+						<path
+							d="M513.43007 1019.262092c-280.20375 0-507.388982-227.207745-507.388982-507.410472 0-280.224216 227.185232-507.409448 507.388982-507.409448 280.247752 0 507.391029 227.185232 507.391029 507.409448C1020.821099 792.054347 793.678846 1019.262092 513.43007 1019.262092zM746.107387 363.903034c9.540284-9.53926 9.540284-25.021883 0-34.539654l-51.822272-51.800783c-9.535167-9.558703-24.977881-9.558703-34.518165 0L512.976746 424.334381 366.184495 277.562597c-9.53619-9.558703-24.977881-9.558703-34.518165 0l-51.822272 51.800783c-9.538237 9.517771-9.538237 25.001417 0 34.539654l146.793274 146.770761-146.793274 146.790204c-9.538237 9.518794-9.538237 25.004487 0 34.540677l51.822272 51.79976c9.540284 9.538237 24.981974 9.538237 34.518165 0L512.976746 597.014232l146.790204 146.790204c9.540284 9.538237 24.982998 9.538237 34.518165 0l51.822272-51.79976c9.540284-9.53619 9.540284-25.021883 0-34.540677L599.317183 510.674818 746.107387 363.903034z"
+							p-id="3218" fill="#cdcdcd"></path>
+					</svg>
+				</span>
+			</div>
+		</header>
 		<section class="search_history" v-if="!searchValue">
 			<h4 class="search_history_text">
 				<span>历史搜索</span>
@@ -34,14 +47,20 @@
 				</span>
 			</h4>
 		</section>
-		<section class="search_list" v-if="shopList.length">
+		<section class="search_list" v-if="searchValue">
 			<ul class="search_list_shop_wrap">
 				<li class="search_list_shop" v-for="(item, index) in shopList" :key="index">
-						<img :src="'//elm.cangdu.org/img/' + item.image_path">
-					<!-- <section class="search_list_shop_details">
+					<section class="search_list_shop_logo">
+						<img :src="'//elm.cangdu.org/img/' + item.image_path" @load="onLoad" class="search_list_shop_logo_loading">
+					</section>
+					<section class="search_list_shop_details">
 						<h1 class="search_list_shop_details_name">{{item.name}}</h1>
-						<h4 class="search_list_shop_details_supports"></h4>
-					</section> -->
+						<h4 class="search_list_shop_details_order">
+							<span>评分{{item.rating}}</span> |
+							<span>月售{{item.month_sales||item.recent_order_num}}单</span> |
+							<span>{{item.distance}}</span>
+						</h4>
+					</section>
 				</li>
 			</ul>
 		</section>
@@ -49,36 +68,40 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import {mapState} from 'vuex'
 import {searchRestaurant} from '../serviece/getData.js'
-import {Lazyload} from 'vant'
-
-Vue.use(Lazyload, {
-	lazyComponent: true,
-	loading: require('../assets/logo.png')
-})
+import Vue from 'vue'
 
 export default {
 	data() {
 		return {
 			searchValue: '',
 			shopList: [],
+			lazyOption: {
+				loading: true,
+				finished: false,
+			},
+			focused: true,
 		}
-	},
-	mounted() {
-		this.init()
 	},
 	computed: {
 		...mapState(['geohash'])
 	},
 	methods: {
-		init() {
-
-		},
 		onCancel() {
 			this.searchValue = ''
-		}
+		},
+		onLoad(e) {
+			e.target.classList.remove('search_list_shop_logo_loading')
+		},
+		onFocus(e) {
+			console.log('focus',e)
+			this.focused = true
+		},
+		onBlur(e) {
+			console.log('blur', e)
+			this.focused = false
+		},
 	},
 	watch: {
 		async searchValue() {
@@ -88,6 +111,9 @@ export default {
 			}
 			console.log(this.shopList)
 		}
+	},
+	activated() {
+		document.getElementsByClassName('search_input_text')[0].focus()
 	}
 }
 </script>
@@ -97,8 +123,19 @@ export default {
 
 	#search {
 		.search{
-
+			&_header {
+				@include fj(flex-start);
+				align-items: center;
+				.search_back {
+					@include wh(20px, 20px);
+					&_enter_active {
+ 						 transition: all .3s ease;
+					}
+				}
+			}
+			
 			&_input_wrap {
+				flex-grow: 1;
 				@include fj(flex-start);
 				align-items: center;
 				height: 30px;
@@ -111,6 +148,7 @@ export default {
 
 				&_text {
 					margin-left: 15px;
+					margin-right: 15px;
 					background-color: $bdc;
 					height: 14px;
 					font-size: 16px;
@@ -145,6 +183,27 @@ export default {
 				&_shop {
 					@include fj(flex-start);
 					align-items: center;
+					padding: 5px 10px;
+					border-bottom: 1px solid $bdc;
+					&_logo {
+						margin-left:5px;
+						@include wh(35px, 35px);
+						&_loading {
+							background: url('../assets/loading.gif') center center no-repeat;
+						}
+						img {
+							@include wh(35px, 35px);
+						}
+					}
+					&_details {
+						margin-left:5px;
+						&_name {
+							font-size: 16px;
+						}
+						&_order {
+							@include sclh(12px, $bdc,16px);
+						}
+					}
 				}
 			}
 		}
