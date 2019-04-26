@@ -75,25 +75,28 @@ import Vue from 'vue'
 export default {
 	data() {
 		return {
-			searchValue: '',
-			shopList: [],
-			lazyOption: {
+			searchValue: '',//搜索框value
+			shopList: [],//搜索结果列表
+			lazyOption: {  //懒加载依赖
 				loading: true,
 				finished: false,
 			},
-			focused: true,
+			focused: true, // 聚焦时隐藏back按钮
 		}
 	},
 	computed: {
 		...mapState(['geohash'])
 	},
 	methods: {
+		//清楚搜索内容
 		onCancel() {
 			this.searchValue = ''
 		},
+		//图片加载完成, 清楚loading图片
 		onLoad(e) {
 			e.target.classList.remove('search_list_shop_logo_loading')
 		},
+		//聚焦,失焦时,改变focused,显示隐藏back按钮
 		onFocus(e) {
 			console.log('focus',e)
 			this.focused = true
@@ -104,6 +107,7 @@ export default {
 		},
 	},
 	watch: {
+		//搜索value改变时, 获取数据
 		async searchValue() {
 			this.shopList = await searchRestaurant(this.geohash, this.searchValue)
 			if(this.shopList.type === 'ERROR_PARAMS') {
@@ -112,6 +116,7 @@ export default {
 			console.log(this.shopList)
 		}
 	},
+	//切换路由时, 聚焦到搜索框
 	activated() {
 		document.getElementsByClassName('search_input_text')[0].focus()
 	}
