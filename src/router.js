@@ -24,6 +24,7 @@ export default new Router({
     {
       path: '/Home/:geohash',
       name: 'Home',
+      meta: {keepAlive: true},
       component: () => import('./views/Home.vue')
     },
     {

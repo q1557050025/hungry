@@ -2,8 +2,11 @@
   <div id="app">
     <transition name="router-fade" mode="out-in">
       <keep-alive>
-        <router-view/>
+        <router-view v-if="$route.meta.keepAlive"/>
       </keep-alive>
+    </transition>
+    <transition name="router-fade" mode="out-in">
+      <router-view v-if="!$route.meta.keepAlive" />
     </transition>
     <svg-icon></svg-icon>
   </div>
