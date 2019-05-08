@@ -23,3 +23,21 @@
 @mixin devborder() {
 	border: 1px solid red;
 }
+
+@mixin fade() {
+	.fade {
+		&-enter-active, &-leave-active {
+			opacity: 1;
+			transition: opacity .8s;
+		}
+		&-enter, &-leave-to {
+			opacity: 0;
+		}
+	}
+}
+
+@mixin flex($type:space-between, $align:center) {
+	display: flex;
+	justify-content: $type;
+	align-items: $align;
+}

@@ -14,7 +14,7 @@ export default new Vuex.Store({
     },
     saveAddress(state, address) {
       state.address = address
-    }
+    },
   },
   actions: {
 

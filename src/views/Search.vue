@@ -2,7 +2,7 @@
 	<div id="search" class="search">
 		<header class="search_header">
 			<transition name="search_back">
-				<span class="search_back" v-show="focused" >
+				<span class="search_back" v-show="focused" @click="goBack">
 					<svg t="1556285307287"
 						class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1960"
 						xmlns:xlink="http://www.w3.org/1999/xlink" >
@@ -23,8 +23,10 @@
 								p-id="2106" fill="#cdcdcd"></path>
 						</svg>
 					</span>
-						<input type="text" class="search_input_text" v-model="searchValue" @focus="onFocus" @blur="onBlur">
-					<span class="search_input_cancel" v-if="searchValue" @click="onCancel">
+					<form action="" @submit.prevent="onSubmit" class="search_input_form">
+						<input type="text" class="search_input_text" v-model="searchValue" @focus="onFocus" @blur="onBlur"  autofocus="true">
+					</form>
+					<span class="search_input_clear" v-if="searchValue" @click="onClear">
 						<svg t="1556267945083" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3217"
 							xmlns:xlink="http://www.w3.org/1999/xlink" >
 							<path
@@ -34,11 +36,14 @@
 					</span>
 				</div>
 			</transition>
+			<transition name="search_input_cancel">
+				<span class="search_input_cancel" v-if="!focused" @click="goBack">取消</span>
+			</transition>
 		</header>
 		<section class="search_history" v-if="!searchValue">
 			<h4 class="search_history_text">
 				<span>历史搜索</span>
-				<span class="search_history_cancel">
+				<span class="search_history_cancel" @click="confirm = true">
 					<svg t="1556270767771"
 						style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1991"
 						xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -48,10 +53,18 @@
 					</svg>
 				</span>
 			</h4>
+			<section class="search_history_list">
+				<span 
+					@click="useHistory(item)"
+					v-for="(item, index) in searchHistory" :key="index"
+					class="search_history_list_tag">
+					{{item}}
+				</span>
+			</section>
 		</section>
 		<section class="search_list" v-if="searchValue">
 			<ul class="search_list_shop_wrap">
-				<li class="search_list_shop" v-for="(item, index) in shopList" :key="index">
+				<li class="search_list_shop" v-for="(item, index) in shopList" :key="index" @click="linkToShop">
 					<section class="search_list_shop_logo">
 						<img :src="'//elm.cangdu.org/img/' + item.image_path" @load="onLoad" class="search_list_shop_logo_loading">
 					</section>
@@ -66,12 +79,25 @@
 				</li>
 			</ul>
 		</section>
+		<transition name="fade">
+			<div class="search_confirm_wrap" v-if="confirm">
+				<div class="search_confirm">
+					<h4 class="search_confirm_title">确认删除全部历史记录?</h4>
+					<div class="search_confirm_btn">
+						<div class="search_confirm_text" @click="handleConfirm(true)">确认</div>			
+						<div class="search_confirm_text" @click="handleConfirm(false)">取消</div>	
+					</div>
+				</div>		
+			</div>
+		</transition>
+		
 	</div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
-import {searchRestaurant} from '../serviece/getData.js'
+import {searchRestaurant, shopList} from '../serviece/getData.js'
+import {getStore, setStore, removeStore} from '../config/mUtils.js'
 
 export default {
 	data() {
@@ -83,14 +109,27 @@ export default {
 				finished: false,
 			},
 			focused: true, // 聚焦时隐藏back按钮
+			searchHistory: [],
+			confirm: false,
 		}
 	},
 	computed: {
 		...mapState(['geohash'])
 	},
 	methods: {
+		goBack() {
+			this.$router.go(-1)
+		},
+		onSubmit() {
+			//添加searchValue到history, 并去重, 然后添加到localStorage
+			if(this.searchValue === '') return false
+			let list = this.searchHistory
+			list.push(this.searchValue)
+			this.searchHistory = Array.from(new Set(list))
+			setStore('searchHistory', this.searchHistory)
+		},
 		//清楚搜索内容
-		onCancel() {
+		onClear() {
 			this.searchValue = ''
 		},
 		//图片加载完成, 清楚loading图片
@@ -98,25 +137,61 @@ export default {
 			e.target.classList.remove('search_list_shop_logo_loading')
 		},
 		//聚焦,失焦时,改变focused,显示隐藏back按钮
-		onFocus(e) {
+		onFocus() {
 			this.focused = false
 		},
-		onBlur(e) {
+		onBlur() {
 			this.focused = true
 		},
+		linkToShop() {
+			this.$router.push({path:'/Shop'})
+		},
+		clearSearchHistory() {
+			this.confirm = true
+		},
+		handleConfirm(boolen) {
+			if(boolen) {
+				this.searchHistory = []
+				removeStore("searchHistory")
+			}
+			this.confirm = false
+			document.getElementsByClassName("search_input_text")[0].focus()
+		},
+		useHistory(item) {
+			this.searchValue = item
+			this.onSubmit;
+		}
 	},
 	watch: {
-		//搜索value改变时, 获取数据
+		//搜索value改变时, 获取数据. api坏了! 改用shoplist
 		async searchValue() {
-			this.shopList = await searchRestaurant(this.geohash, this.searchValue)
-			if(this.shopList.type === 'ERROR_PARAMS') {
+			//api坏了, 用shoplist代替下
+			// let list = await searchRestaurant(this.geohash, this.searchValue)
+			let list = await shopList({
+					latitude: 29.01789,
+					longitude: 119.55796,
+					offset: 30,
+					restaurant_category_id: '',
+					restaurant_category_ids: '',
+					order_by: '',
+					delivery_mode: '',
+					support_ids: []
+			})
+
+			if(list.type) {
 				this.shopList = []
+			}else {
+				this.shopList = list
 			}
 		}
 	},
 	//切换路由时, 聚焦到搜索框
 	mounted() {
-		document.getElementsByClassName('search_input_text')[0].focus()
+		if(getStore("searchHistory")) {
+			this.searchHistory = getStore("searchHistory")
+		}else {
+			this.searchHistory = []
+		}
 	}
 }
 </script>
@@ -125,10 +200,15 @@ export default {
 	@import '../style/mixin.scss';
 
 	#search {
+		@include fj(flex-start);
+		max-height: 667px;
+		flex-direction: column;
+		overflow: hidden;
 		.search{
 			&_header {
 				@include fj(flex-start);
 				align-items: center;
+
 				.search_back {
 					@include wh(20px, 20px);
 					&-enter-active, &-leave-active {
@@ -152,11 +232,16 @@ export default {
 			}
 			
 			&_input {
+				&_form {
+					flex-grow: 1;
+					@include fj;
+				}
+
 				&_text {
 					margin-left: 15px;
 					margin-right: 15px;
 					background-color: $bdc;
-					height: 14px;
+					height: 20px;
 					font-size: 16px;
 					flex-grow: 1;
 				}
@@ -166,16 +251,31 @@ export default {
 					@include wh(25px, 25px);
 				}
 
-				&_cancel {
+				&_clear {
 					@include wh(16px, 16px);
 					margin-right: 15px;
+				}
+
+				&_cancel {
+					@include sclh(16px, $blue);
+					overflow: hidden;
+					white-space: nowrap;
+					width: 40px;
+					margin: 0 auto;
+
+					&-enter-active, &-leave-active {
+						transition: flex-basis 1s;
+						flex-basis: 40px;
+					}
+
+					&-enter, &-leave-to {
+						flex-basis: 0;
+					}
 				}
 			}
 
 			&_history {
 				&_text {
-					overflow: scroll;
-					white-space: nowrap;
 					@include fj;
 					font-weight: 700;
 					font-size: 16px;
@@ -186,8 +286,25 @@ export default {
 				&_cancel {
 					@include wh(20px, 20px);
 				}
+				&_list {
+					@include fj(felx-sart);
+					align-items: flex-start;
+					flex-wrap: wrap;
+					padding: 0 10px;
+					&_tag {
+						margin-left: 10px;
+						margin-top: 10px;
+						padding: 8px 16px;
+						@include sclh(12px,#000);
+						background-color: $bdc;
+						border-radius: 5px;
+					}
+				}
 			}
+
 			&_list {
+				flex-grow: 1;
+				overflow: auto;
 				&_shop {
 					@include fj(flex-start);
 					align-items: center;
@@ -213,7 +330,51 @@ export default {
 						}
 					}
 				}
+
+			}
+
+			&_confirm_wrap {
+				position: absolute;
+				left: 0;
+				right: 0;
+				background-color: rgba(0,0,0,.3);
+				width: 375px;
+				height: 667px;
+				z-index: 100;
+				@include fj(space-around);
+				align-items: center;
+			}
+			&_confirm {
+				border-radius: 8px;
+				background-color: #fff;
+				@include wh(275px, 100px);
+				@include fj(flex-start);
+				align-items: center;
+				flex-direction: column;
+				&_title {
+					@include sclh(20px,#000, 60px);
+					font-weight: 600;
+					height: 60px;
+				}
+				&_btn {
+					flex-grow: 1;
+					@include fj;
+					width: 275px;
+					border-top: .5px solid $bdc;
+				}
+				&_text {
+					&:nth-of-type(1) {
+						border-right: .5px solid $bdc;
+					}
+					flex-grow: 1;
+					@include sclh(20px, $blue);
+					@include fj(space-around);
+					align-items: center;
+					font-weight: 500;
+				}
 			}
 		}
+
+		@include fade;
 	}
 </style>

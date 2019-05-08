@@ -59,3 +59,5 @@ export const searchRestaurant = (geohash, keyword) => fetch('/v4/restaurants', {
 	keyword,
 	type: 'search'
 });
+
+export const accountLogin = (username, password, captcha_code) => fetch('/v2/login', {username, password, captcha_code}, 'POST');

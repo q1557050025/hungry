@@ -34,7 +34,8 @@
 				to="/cityList"
 				v-if="headerOptions.changeCity">
 				<span class="header_changeCity">切换城市</span>
-			</router-link>		
+			</router-link>	
+			<slot name="changeLoginWay"></slot>	
 		</van-col>
 	</van-row>
 </template>

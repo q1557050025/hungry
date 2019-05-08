@@ -22,6 +22,10 @@ export default new Router({
       component: () => import('./views/City.vue')
     },
     {
+      path: '/Home',
+      redirect: '/Home/29.133253,119.641724'
+    },
+    {
       path: '/Home/:geohash',
       name: 'Home',
       meta: {keepAlive: true},
@@ -38,14 +42,70 @@ export default new Router({
       component: () => import('./views/Order.vue')
     },
     {
-      path: '/User',
-      name: 'User',
-      component: () => import('./views/User.vue')
+      path: '/Profile',
+      name: 'Profile',
+      component: () => import('./views/profile/Profile.vue')
+    },
+    {
+      path: '/Profile/notifaction',
+      name: 'notifaction',
+      component: () => import ('./views/profile/children/notifaction.vue')
+    },
+    {
+      path: '/Profile/info',
+      name: 'info',
+      component: () => import ('./views/profile/children/info.vue')
+    },
+    {
+      path: '/Profile/vip',
+      name: 'vip',
+      component: () => import ('./views/profile/children/vip.vue')
+    },
+    {
+      path: '/Profile/coupon',
+      name: 'coupon',
+      component: () => import ('./views/profile/children/coupon.vue')
+    },
+    {
+      path: '/Profile/balance',
+      name: 'balance',
+      component: () => import ('./views/profile/children/balance.vue')
+    },
+    {
+      path: '/Profile/pointMall',
+      name: 'pointMall',
+      component: () => import ('./views/profile/children/pointMall.vue')
+    },
+    {
+      path: '/Profile/collect',
+      name: 'collect',
+      component: () => import ('./views/profile/children/collect.vue')
+    },
+    {
+      path: '/Profile/service',
+      name: 'service',
+      component: () => import ('./views/profile/children/service.vue')
+    },
+    {
+      path: '/Profile/download',
+      name: 'download',
+      component: () => import ('./views/profile/children/download.vue')
     },
     {
       path: '/ShopFilter',
       name: 'ShopFilter',
       component: () => import('./views/ShopFilter.vue'),
     },
+    {
+      path: '/Shop',
+      name: 'Shop',
+      component: () => import('./views/Shop.vue'),
+    },
+    {
+      path: '/Login',
+      name: 'Login',
+      component: () => import('./views/Login.vue'),
+    },
   ]
+
 })
