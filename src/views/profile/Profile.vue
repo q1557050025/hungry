@@ -294,7 +294,7 @@ export default {
 				margin-left: 10px;
 				margin-right: 10px;
 				margin-top: 20px;
-				height: 60px;
+				height: 40px;
 				border-radius: 5px;
 				.icon {
 					@include wh(20px, 20px);
