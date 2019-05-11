@@ -1,7 +1,7 @@
 <template>
 	<div class="vip">
 		<header class="vip-header">
-			<section class="goback">
+			<section class="goback" @click="$router.go(-1)">
 				<icon-base :width="'20px'" :height="'20px'"><icon-back></icon-back></icon-base>
 			</section>
 			<section class="title">购买会员</section>
@@ -145,6 +145,7 @@ export default {
 			width: 100%;
 			.goback {
 				flex-basis: 0px;
+				padding-left: 10px;
 			}
 			.title {
 				flex-grow: 1;

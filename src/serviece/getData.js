@@ -61,3 +61,6 @@ export const searchRestaurant = (geohash, keyword) => fetch('/v4/restaurants', {
 });
 
 export const accountLogin = (username, password, captcha_code) => fetch('/v2/login', {username, password, captcha_code}, 'POST');
+
+//获取红包
+export const getHongbaoNum = id => fetch('/promotion/v2/users/' + id + '/hongbaos?limit=20&offset=0');

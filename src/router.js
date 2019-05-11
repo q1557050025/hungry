@@ -64,7 +64,23 @@ export default new Router({
     {
       path: '/Profile/coupon',
       name: 'coupon',
-      component: () => import ('./views/profile/children/coupon.vue')
+      component: () => import ('./views/profile/children/coupon/coupon.vue'),
+      children: [
+        {
+          path: '/Profile/coupon/',
+          redirect: '/Profile/coupon/normal'
+        },
+        {
+          path: '/Profile/coupon/normal',
+          name: 'normal',
+          component: () => import ('./views/profile/children/coupon/children/normal.vue'),
+        },
+        {
+          path: '/Profile/coupon/unique',
+          name: 'unique',
+          component: () => import ('./views/profile/children/coupon/children/unique.vue'),
+        },
+      ]
     },
     {
       path: '/Profile/balance',
