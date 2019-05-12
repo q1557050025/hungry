@@ -1,11 +1,10 @@
 <template>
 	<div class="profile">
 		<header class="profile-header">
-			<section class="profile-header-section"></section>
-			<section class="profile-header-tiltle" v-if="isHeaderTitleShow">
+			<section class="profile-header-title main" v-if="isHeaderTitleShow">
 				我的
 			</section>
-			<section class="profile-header-section" @click="linkTo('/Profile/notifaction')">
+			<section class="right" @click="linkTo('/Profile/notifaction')">
 				<svg t="1556836701165" class="profile-header-icon"
 					viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1993"
 					xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -16,7 +15,6 @@
 			</section>
 		</header>
 		<main class="profile-main">
-			<div class="wrap">
 				<section class="profile-main-user" @click="linkTo('/Profile/info')">
 					<section class="profile-main-user-detailes">
 						<h1 class="profile-main-user-detailes-name">{{userInfo.userName}}</h1>
@@ -190,7 +188,6 @@
 						仿饿了么练习项目@布可
 					</center>
 				</section>
-			</div>
 		</main>
 		<foot-nav class="profile-footer"></foot-nav>
 	</div>
@@ -224,44 +221,20 @@ export default {
 <style lang="scss" scoped>
 	@import '../../style/mixin.scss';
 	.profile {
-		@include flex(flex-start, stretch);
-		flex-direction: column;
-		width: 375px;
-		height:667px;
-		overflow: hidden;
+		@include header-main-footer(45px);
 		&-header{
-			@include flex;
-			height: 60px;
-			width: 375px;			
-			// border: solid 1px red;Z
-
-			&-section {
-				width: 30px;
-				height: 40px;
-				@include flex;
-			}
-
+			@include header;
 			&-title {
-				flex-grow: 1;
-				@include flex;
-				@include sclh(20px, #000,)
+				@include title20;
 			}
 
 			&-icon {
-				@include wh(24px, 24px)
+				@include wh(24px, 24px);
 			}
 		}
 
 		&-main {
-			width: 375px;
-			flex-grow: 1;
-			overflow: auto;
-			.wrap {
-				@include flex(flex-start, stretch);
-				flex-direction: column;
-				height:700px;
-				overflow: auto;
-			}
+			height:700px;
 			&-user {
 				width: 375px;
 				height: 80px;
@@ -408,11 +381,6 @@ export default {
 					color: gray;
 				}
 			}
-		}
-
-		&-footer {
-			width: 375px;				
-			box-shadow: 0 0 4px 0 $bdc;		
 		}
 	}
 </style>

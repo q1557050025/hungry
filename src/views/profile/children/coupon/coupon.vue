@@ -3,8 +3,16 @@
 		<header-top class="coupon-header" :headerOptions="headerOptions"></header-top>
 		<main class="coupon-main">
 			<nav class="coupon-main-nav">
-				<router-link to="/Profile/coupon/normal" :class="{'active':this.$route.path.indexOf('normal') != -1}"><span>红包</span></router-link>
-				<router-link to="/Profile/coupon/unique" :class="{'active':this.$route.path.indexOf('unique') != -1}"><span>店铺红包</span></router-link>
+				<section 
+					@click="$router.replace('/profile/coupon/normal')"
+					:class="{'active':this.$route.path.indexOf('normal') != -1}">
+					<span>红包</span>
+				</section>
+				<section 
+					@click="$router.replace('/profile/coupon/unique')"
+					:class="{'active':this.$route.path.indexOf('unique') != -1}">
+					<span>店铺红包</span>
+				</section>
 			</nav>
 			<router-view></router-view>
 		</main>
@@ -12,41 +20,44 @@
 </template>
 
 <script>
-import headerTop from '../../../../components/header/header.vue'
-import {getHongbaoNum} from '../../../../serviece/getData.js'
+	import headerTop from '../../../../components/header/header.vue'
+	import {
+		getHongbaoNum
+	} from '../../../../serviece/getData.js'
 
-export default {
-	components: {
-		headerTop,
-	},
-	data() {
-		return {
-			headerOptions: {
-				logo:{
-					goBack: true,
+	export default {
+		components: {
+			headerTop,
+		},
+		data() {
+			return {
+				headerOptions: {
+					logo: {
+						goBack: true,
+					},
+					title: "红包",
 				},
-				title: "红包",
-			},
-		}
-	},
-}
+			}
+		},
+	}
 </script>
 
 <style lang="scss" scoped>
 	@import '../../../../style/mixin.scss';
-	.coupon {
-		&-header {
 
-		}
+	.coupon {
+		&-header {}
 
 		&-main {
 			&-nav {
 				background: $blue;
 				height: 40px;
 				@include flex;
-				a {
+
+				section {
 					flex-grow: 1;
-					@include flex(center,center);
+					@include flex(center, center);
+
 					span {
 						font-size: 16px;
 						color: #9ad7ff;

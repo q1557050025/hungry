@@ -1,7 +1,7 @@
 <template>
 	<div class="vip">
 		<header class="vip-header">
-			<section class="goback" @click="$router.go(-1)">
+			<section class="goback left" @click="$router.go(-1)">
 				<icon-base :width="'20px'" :height="'20px'"><icon-back></icon-back></icon-base>
 			</section>
 			<section class="title">购买会员</section>
@@ -133,19 +133,16 @@ export default {
 
 <style lang="scss" scoped>
 	@import '../../../style/mixin.scss';
-
 	.vip {
-		@include flex(flex-start, stretch);
-		flex-direction: column;
+		@include header-main-footer(40px,#000);
 		&-header {
-			background-color: #000;
-			height: 40px;
-			@include flex(space-around,center);
-			position: fixed;
-			width: 100%;
-			.goback {
-				flex-basis: 0px;
+			.left {
+				position: absolute;
+				left: 0;
 				padding-left: 10px;
+			}
+			.goback {
+				color: #fff;
 			}
 			.title {
 				flex-grow: 1;
@@ -156,9 +153,6 @@ export default {
 		}
 
 		&-main {
-			margin-top: 40px;
-			@include flex(flex-start, stretch);
-			flex-direction: column;
 			&-wrap {
 				flex-grow: 1;
 				height:610px;
@@ -320,12 +314,7 @@ export default {
 		}
 
 		&-footer {
-			@include flex(flex-start, stretch);
-			position: fixed;
-			bottom: 0;
 			height: 45px;
-			box-shadow: 0 0 5px 0 $bdc;
-			width: 100%;
 			&-detailes {
 				flex-grow: 1;
 				background-color: #fff;

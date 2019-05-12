@@ -1,21 +1,21 @@
 <template>
 	<div>
-		<Header class="home_header" :headerOptions="headerOptions"></Header>
-		<main class="home_main">
-			<van-swipe class="home_nav" :loop="false">
+		<Header class="home-header" :headerOptions="headerOptions"></Header>
+		<main class="home-main">
+			<van-swipe class="home-nav" :loop="false">
 				<van-swipe-item v-for="(foods, index) in this.foodTypes" :key="index">
-					<van-row class="home_nav_swipe" type="flex">
+					<van-row class="home-nav-swipe" type="flex">
 						<van-col span="6" v-for="(item, index) in foods" :key="index">
-							<div class="home_nav_swipe_item" @click="linkToShopFilter">
-								<img :src="imgBaseUrl + item.image_url" class="home_nav_swipe_img">
-								<p class="home_nav_swipe_title">{{item.title}}</p>
+							<div class="home-nav-swipe-item" @click="linkToShopFilter">
+								<img :src="imgBaseUrl + item.image-url" class="home-nav-swipe-img">
+								<p class="home-nav-swipe-title">{{item.title}}</p>
 							</div>
 						</van-col>
 					</van-row>
 				</van-swipe-item>
 			</van-swipe>
 
-			<h4 class="home_shop_text">
+			<h4 class="home-shop-text">
 				<span>
 					<svg t="1556198780238" class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
 						xmlns="http://www.w3.org/2000/svg" p-id="2071" xmlns:xlink="http://www.w3.org/1999/xlink" width="16"
@@ -27,9 +27,9 @@
 				</span>
 				&ensp;附近商家
 			</h4>
-			<shop-list :geohash="geohash" v-if="getDataDone" class="home_shop"></shop-list>
+			<shop-list :geohash="geohash" v-if="getDataDone" class="home-shop"></shop-list>
 		</main>
-		<foot-nav class="home_footer"></foot-nav>
+		<foot-nav class="home-footer"></foot-nav>
 	</div>
 </template>
 
@@ -157,8 +157,8 @@
 
 <style lang="scss">
 	.home {
-		&_nav {
-			.van-swipe__indicator {
+		&-nav {
+			.van-swipe--indicator {
 				background-color: black;
 
 				&--active {
@@ -173,35 +173,25 @@
 	@import '../style/mixin.scss';
 
 	.home {
-		display: flex;
-		flex-direction: column;
-
-		&_header {
-			height: 45px;
-		}
-
-		&_main {
-			overflow: auto;
-			height: 570px;
-		}
-		&_shop {
+		@include header-main-footer(45px);
+		&-shop {
 			margin-top: 20px;
-			&_text {
+			&-text {
 				border-top: 2px solid $bdc;
 				@include sclh(12px, #999, 20px);
 				padding-top: 5px;
 				padding-left: 5px;
 			}
 		}
-		&_nav {
+		&-nav {
 			border-bottom: solid 2px $bdc;
 			margin-bottom: 20px;
 			margin-top: 10px;
 
-			&_swipe {
+			&-swipe {
 				flex-wrap: wrap;
 
-				&_item {
+				&-item {
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
@@ -209,19 +199,15 @@
 					height: 86.28px;
 				}
 
-				&_img {
+				&-img {
 					@include wh(42.2px, 42.2px)
 				}
 
-				&_title {
+				&-title {
 					@include sclh(12.9px, #666, 40px)
 				}
 			}
 		}
-
-		&_footer {
-			flex-grow: 1;
-			border-top: solid 1px $bdc;
-		}
+		
 	}
 </style>

@@ -1,8 +1,8 @@
 <template>
 	<div id="search" class="search">
-		<header class="search_header">
-			<transition name="search_back">
-				<span class="search_back" v-show="focused" @click="goBack">
+		<header class="search-header">
+			<transition name="search-back">
+				<span class="search-back" v-show="focused" @click="goBack">
 					<svg t="1556285307287"
 						class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1960"
 						xmlns:xlink="http://www.w3.org/1999/xlink" >
@@ -12,9 +12,9 @@
 					</svg>
 				</span>
 			</transition>
-			<transition name="search_input_wrap">
-				<div class="search_input_wrap">
-					<span class="search_input_icon"> 
+			<transition name="search-input-wrap">
+				<div class="search-input-wrap">
+					<span class="search-input-icon"> 
 						<svg t="1556266593130"
 							style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2105"
 							xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -23,10 +23,10 @@
 								p-id="2106" fill="#cdcdcd"></path>
 						</svg>
 					</span>
-					<form action="" @submit.prevent="onSubmit" class="search_input_form">
-						<input type="text" class="search_input_text" v-model="searchValue" @focus="onFocus" @blur="onBlur"  autofocus="true">
+					<form action="" @submit.prevent="onSubmit" class="search-input-form">
+						<input type="text" class="search-input-text" v-model="searchValue" @focus="onFocus" @blur="onBlur"  autofocus="true" ref="input">
 					</form>
-					<span class="search_input_clear" v-if="searchValue" @click="onClear">
+					<span class="search-input-clear" v-if="searchValue" @click="onClear">
 						<svg t="1556267945083" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3217"
 							xmlns:xlink="http://www.w3.org/1999/xlink" >
 							<path
@@ -36,61 +36,62 @@
 					</span>
 				</div>
 			</transition>
-			<transition name="search_input_cancel">
-				<span class="search_input_cancel" v-if="!focused" @click="goBack">取消</span>
+			<transition name="search-input-cancel">
+				<span class="search-input-cancel" v-if="!focused" @click="goBack">取消</span>
 			</transition>
 		</header>
-		<section class="search_history" v-if="!searchValue">
-			<h4 class="search_history_text">
-				<span>历史搜索</span>
-				<span class="search_history_cancel" @click="confirm = true">
-					<svg t="1556270767771"
-						style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1991"
-						xmlns:xlink="http://www.w3.org/1999/xlink">
-						<path
-							d="M790.864 318.096c0.72 8.832 1.136 17.808 1.136 26.896v444.16c0 73.04-35.824 138.8-112 138.8h-336c-76.176 0-112-65.776-112-138.8v-444.16a235.104 235.104 0 0 1 1.68-26.896H176v-111.04l168-0.128V185.6c0-49.472 45.84-89.6 102.4-89.6h131.2c56.56 0 102.4 40.112 102.4 89.6v20.592l168 0.736v111.168h-57.136zM624 185.6c0-18.464-21.248-34.064-46.4-34.064h-131.2c-25.152 0-46.4 15.6-46.4 34.064v21.344h224V185.6z m112 159.408a190.4 190.4 0 0 0-1.872-26.896H289.888a188.544 188.544 0 0 0-1.888 26.88v444.16c0 42.592 10.72 83.28 56 83.28h336c45.344 0 56-40.704 56-83.28v-444.16z m-112 28.336h56v443.728H624V373.328z m-140 0h56v443.728h-56V373.328z m-140 0H400v443.728h-56V373.328z"
-							p-id="1992" fill="#dbdbdb"></path>
-					</svg>
-				</span>
-			</h4>
-			<section class="search_history_list">
-				<span 
-					@click="useHistory(item)"
-					v-for="(item, index) in searchHistory" :key="index"
-					class="search_history_list_tag">
-					{{item}}
-				</span>
+		<main class="search-main">
+			<section class="search-history" v-if="!searchValue">
+				<h4 class="search-history-text">
+					<span>历史搜索</span>
+					<span class="search-history-cancel" @click="confirm = true">
+						<svg t="1556270767771"
+							style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1991"
+							xmlns:xlink="http://www.w3.org/1999/xlink">
+							<path
+								d="M790.864 318.096c0.72 8.832 1.136 17.808 1.136 26.896v444.16c0 73.04-35.824 138.8-112 138.8h-336c-76.176 0-112-65.776-112-138.8v-444.16a235.104 235.104 0 0 1 1.68-26.896H176v-111.04l168-0.128V185.6c0-49.472 45.84-89.6 102.4-89.6h131.2c56.56 0 102.4 40.112 102.4 89.6v20.592l168 0.736v111.168h-57.136zM624 185.6c0-18.464-21.248-34.064-46.4-34.064h-131.2c-25.152 0-46.4 15.6-46.4 34.064v21.344h224V185.6z m112 159.408a190.4 190.4 0 0 0-1.872-26.896H289.888a188.544 188.544 0 0 0-1.888 26.88v444.16c0 42.592 10.72 83.28 56 83.28h336c45.344 0 56-40.704 56-83.28v-444.16z m-112 28.336h56v443.728H624V373.328z m-140 0h56v443.728h-56V373.328z m-140 0H400v443.728h-56V373.328z"
+								p-id="1992" fill="#dbdbdb"></path>
+						</svg>
+					</span>
+				</h4>
+				<section class="search-history-list">
+					<span 
+						@click="useHistory(item)"
+						v-for="(item, index) in searchHistory" :key="index"
+						class="search-history-list-tag">
+						{{item}}
+					</span>
+				</section>
 			</section>
-		</section>
-		<section class="search_list" v-if="searchValue">
-			<ul class="search_list_shop_wrap">
-				<li class="search_list_shop" v-for="(item, index) in shopList" :key="index" @click="linkToShop">
-					<section class="search_list_shop_logo">
-						<img :src="'//elm.cangdu.org/img/' + item.image_path" @load="onLoad" class="search_list_shop_logo_loading">
-					</section>
-					<section class="search_list_shop_details">
-						<h1 class="search_list_shop_details_name">{{item.name}}</h1>
-						<h4 class="search_list_shop_details_order">
-							<span>评分{{item.rating}}</span> |
-							<span>月售{{item.month_sales||item.recent_order_num}}单</span> |
-							<span>{{item.distance}}</span>
-						</h4>
-					</section>
-				</li>
-			</ul>
-		</section>
+			<section class="search-list" v-if="searchValue">
+				<ul class="search-list-shop-wrap">
+					<li class="search-list-shop" v-for="(item, index) in shopList" :key="index" @click="linkToShop">
+						<section class="search-list-shop-logo">
+							<img :src="'//elm.cangdu.org/img/' + item.image_path" @load="onLoad" class="search-list-shop-logo-loading">
+						</section>
+						<section class="search-list-shop-details">
+							<h1 class="search-list-shop-details-name">{{item.name}}</h1>
+							<h4 class="search-list-shop-details-order">
+								<span>评分{{item.rating}}</span> |
+								<span>月售{{item.month_sales||item.recent_order_num}}单</span> |
+								<span>{{item.distance}}</span>
+							</h4>
+						</section>
+					</li>
+				</ul>
+			</section>
+		</main>
 		<transition name="fade">
-			<div class="search_confirm_wrap" v-if="confirm">
-				<div class="search_confirm">
-					<h4 class="search_confirm_title">确认删除全部历史记录?</h4>
-					<div class="search_confirm_btn">
-						<div class="search_confirm_text" @click="handleConfirm(true)">确认</div>			
-						<div class="search_confirm_text" @click="handleConfirm(false)">取消</div>	
+			<div class="search-confirm-wrap" v-if="confirm">
+				<div class="search-confirm">
+					<h4 class="search-confirm-title">确认删除全部历史记录?</h4>
+					<div class="search-confirm-btn">
+						<div class="search-confirm-text" @click="handleConfirm(true)">确认</div>			
+						<div class="search-confirm-text" @click="handleConfirm(false)">取消</div>	
 					</div>
 				</div>		
 			</div>
 		</transition>
-		
 	</div>
 </template>
 
@@ -131,10 +132,11 @@ export default {
 		//清楚搜索内容
 		onClear() {
 			this.searchValue = ''
+			window.scrollTo(0,0);
 		},
 		//图片加载完成, 清楚loading图片
 		onLoad(e) {
-			e.target.classList.remove('search_list_shop_logo_loading')
+			e.target.classList.remove('search-list-shop-logo-loading')
 		},
 		//聚焦,失焦时,改变focused,显示隐藏back按钮
 		onFocus() {
@@ -155,7 +157,7 @@ export default {
 				removeStore("searchHistory")
 			}
 			this.confirm = false
-			document.getElementsByClassName("search_input_text")[0].focus()
+			document.getElementsByClassName("search-input-text")[0].focus()
 		},
 		useHistory(item) {
 			this.searchValue = item
@@ -200,16 +202,10 @@ export default {
 	@import '../style/mixin.scss';
 
 	#search {
-		@include fj(flex-start);
-		max-height: 667px;
-		flex-direction: column;
-		overflow: hidden;
 		.search{
-			&_header {
-				@include fj(flex-start);
-				align-items: center;
-
-				.search_back {
+			@include header-main-footer(40px);
+			&-header {
+				.search-back {
 					@include wh(20px, 20px);
 					&-enter-active, &-leave-active {
 						transition: flex-basis 1s;
@@ -220,8 +216,10 @@ export default {
 					}
 				}
 			}
-			
-			&_input_wrap {
+			&-main {
+				min-height: 667px;
+			}
+			&-input-wrap {
 				flex-grow: 1;
 				@include fj(flex-start);
 				align-items: center;
@@ -231,13 +229,13 @@ export default {
 				margin: 5px 5px;
 			}
 			
-			&_input {
-				&_form {
+			&-input {
+				&-form {
 					flex-grow: 1;
 					@include fj;
 				}
 
-				&_text {
+				&-text {
 					margin-left: 15px;
 					margin-right: 15px;
 					background-color: $bdc;
@@ -246,17 +244,17 @@ export default {
 					flex-grow: 1;
 				}
 
-				&_icon {
+				&-icon {
 					margin-left: 15px;
 					@include wh(25px, 25px);
 				}
 
-				&_clear {
+				&-clear {
 					@include wh(16px, 16px);
 					margin-right: 15px;
 				}
 
-				&_cancel {
+				&-cancel {
 					@include sclh(16px, $blue);
 					overflow: hidden;
 					white-space: nowrap;
@@ -274,8 +272,9 @@ export default {
 				}
 			}
 
-			&_history {
-				&_text {
+			&-history {
+				flex-grow: 1;
+				&-text {
 					@include fj;
 					font-weight: 700;
 					font-size: 16px;
@@ -283,15 +282,15 @@ export default {
 					margin-left: 15px;
 					margin-right: 15px;
 				}
-				&_cancel {
+				&-cancel {
 					@include wh(20px, 20px);
 				}
-				&_list {
+				&-list {
 					@include fj(felx-sart);
 					align-items: flex-start;
 					flex-wrap: wrap;
 					padding: 0 10px;
-					&_tag {
+					&-tag {
 						margin-left: 10px;
 						margin-top: 10px;
 						padding: 8px 16px;
@@ -302,30 +301,30 @@ export default {
 				}
 			}
 
-			&_list {
+			&-list {
 				flex-grow: 1;
 				overflow: auto;
-				&_shop {
+				&-shop {
 					@include fj(flex-start);
 					align-items: center;
 					padding: 5px 10px;
 					border-bottom: 1px solid $bdc;
-					&_logo {
+					&-logo {
 						margin-left:5px;
 						@include wh(35px, 35px);
-						&_loading {
+						&-loading {
 							background: url('../assets/loading.gif') center center no-repeat;
 						}
 						img {
 							@include wh(35px, 35px);
 						}
 					}
-					&_details {
+					&-details {
 						margin-left:5px;
-						&_name {
+						&-name {
 							font-size: 16px;
 						}
-						&_order {
+						&-order {
 							@include sclh(12px, $bdc,16px);
 						}
 					}
@@ -333,36 +332,36 @@ export default {
 
 			}
 
-			&_confirm_wrap {
-				position: absolute;
+			&-confirm-wrap {
+				position: fixed;
 				left: 0;
-				right: 0;
+				top: 0;
 				background-color: rgba(0,0,0,.3);
 				width: 375px;
 				height: 667px;
-				z-index: 100;
+				z-index: 999;
 				@include fj(space-around);
 				align-items: center;
 			}
-			&_confirm {
+			&-confirm {
 				border-radius: 8px;
 				background-color: #fff;
 				@include wh(275px, 100px);
 				@include fj(flex-start);
 				align-items: center;
 				flex-direction: column;
-				&_title {
+				&-title {
 					@include sclh(20px,#000, 60px);
 					font-weight: 600;
 					height: 60px;
 				}
-				&_btn {
+				&-btn {
 					flex-grow: 1;
 					@include fj;
 					width: 275px;
 					border-top: .5px solid $bdc;
 				}
-				&_text {
+				&-text {
 					&:nth-of-type(1) {
 						border-right: .5px solid $bdc;
 					}
