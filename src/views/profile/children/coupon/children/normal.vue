@@ -24,7 +24,6 @@ export default {
 	methods: {
 		async initData() {
 			this.couponList = await getHongbaoNum(this.userInfo.user_id)
-			console.log(this.couponList);
 		}
 	}
 }

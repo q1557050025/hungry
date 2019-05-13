@@ -147,6 +147,7 @@
 
 @mixin header-main-footer($headerHeight,$bgc:#fff) {
 	@include flex-stretch;
+	flex-direction: column;
 	&-header {
 		@include hmf-header($headerHeight,$bgc);
 		// background-color: $bgc;

@@ -173,13 +173,8 @@ export default {
 <style lang="scss" scoped>
 	@import '../../../style/mixin.scss';
 	.info {
-		@include flex(flex-start, stretch);
-		flex-direction: column;
-		overflow: hidden;
-		height: 667px;
+		@include header-main-footer(45px);
 		&-main {
-			flex-grow: 1;
-			overflow:auto;
 			&-wrap {
 				@include flex(flex-start, stretch);
 				flex-direction: column;

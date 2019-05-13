@@ -46,8 +46,7 @@
 	@import '../../../../style/mixin.scss';
 
 	.coupon {
-		&-header {}
-
+		@include header-main-footer(45px);
 		&-main {
 			&-nav {
 				background: $blue;

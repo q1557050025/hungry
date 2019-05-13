@@ -7,7 +7,7 @@
 					<van-row class="home-nav-swipe" type="flex">
 						<van-col span="6" v-for="(item, index) in foods" :key="index">
 							<div class="home-nav-swipe-item" @click="linkToShopFilter">
-								<img :src="imgBaseUrl + item.image-url" class="home-nav-swipe-img">
+								<img :src="imgBaseUrl + item.image_url" class="home-nav-swipe-img">
 								<p class="home-nav-swipe-title">{{item.title}}</p>
 							</div>
 						</van-col>
