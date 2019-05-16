@@ -19,6 +19,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
 @import './style/common.scss';
   .router-fade-enter-active, .router-fade-leave-active {
