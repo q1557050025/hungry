@@ -20,8 +20,6 @@
 </template>
 
 <script>
-	import {msiteAddress, shopDetails, foodMenu, getRatingList, ratingScores, ratingTags} from '../serviece/getData.js'
-	
 	export default {
 		data() {
 			return {
@@ -53,16 +51,16 @@
 		},
 		async mounted() {
 			//获取商铺信息
-			this.shopDetailData = await shopDetails(this.shopId, this.latitude, this.longitude);
+			this.shopDetailData = await this.$api.shopDetails(this.shopId, this.latitude, this.longitude);
 			//获取商铺食品列表
-			this.menuList = await foodMenu(this.shopId);
+			this.menuList = await this.$api.foodMenu(this.shopId);
 			//评论列表
-			this.ratingList = await getRatingList(this.shopId, this.ratingOffset);
+			this.ratingList = await this.$api.getRatingList(this.shopId, this.ratingOffset);
 			//商铺评论详情
-			this.ratingScoresData = await ratingScores(this.shopId);
+			this.ratingScoresData = await this.$api.ratingScores(this.shopId);
 			//评论Tag列表
-			this.ratingTagsList = await ratingTags(this.shopId);
-
+			this.ratingTagsList = await this.$api.ratingTags(this.shopId);
+			console.log(this.shopDetailData)
 		}
 	}
 </script>
