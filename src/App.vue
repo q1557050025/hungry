@@ -28,4 +28,7 @@ export default {
   .router-fade-enter, .router-fade-leave-active {
     opacity: 0;
   }
+  #app {
+    overflow: hidden;
+  }
 </style>

@@ -7,6 +7,7 @@
 				</li>
 			</ul>
 		</div>
+		<div class="cancel"></div>
 		<div class="shop-main"
 			ref="main"
 			:style="mainStyle"
@@ -207,7 +208,13 @@ export default {
 		position: fixed;
 		top: 200px;
 		right: 100px;
-		
+		z-index: 888;
 		overflow-x: hidden;
+	}
+
+	.cancel {
+		height: 200px;
+		background-color: yellow;
+		overflow: scroll;
 	}
 </style>

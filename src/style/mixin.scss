@@ -20,6 +20,12 @@
 	@return $rem * 23.4375px;
 }
 
+@mixin text-hidden {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 @mixin devborder() {
 	border: 1px solid red;
 }

@@ -115,7 +115,28 @@ export default new Router({
     {
       path: '/Shop',
       name: 'Shop',
-      component: () => import('./views/Shop.vue'),
+      component: () => import('./views/shop/Shop.vue'),
+      children: [
+        {
+          path: '/',
+          redirect: '/Shop/shopList'
+        },
+        {
+          path: '/Shop/shopList',
+          name: 'shopList',
+          component: () => import('./views/shop/children/shoplist.vue')
+        },
+        {
+          path: '/Shop/rating',
+          name: 'rating',
+          component: () => import('./views/shop/children/rating.vue')
+        },
+        {
+          path: '/Shop/shopkeeper',
+          name: 'shopkeeper',
+          component: () => import('./views/shop/children/shopkeeper.vue')
+        }
+      ]
     },
     {
       path: '/Login',
