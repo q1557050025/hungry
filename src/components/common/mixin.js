@@ -16,5 +16,6 @@ export const getImgPath = {
 			return 'https://fuss10.elemecdn.com' + url
 		},
 	}
-
 }
+
+
