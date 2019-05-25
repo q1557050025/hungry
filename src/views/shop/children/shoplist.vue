@@ -31,6 +31,7 @@ import { setInterval, clearInterval } from 'timers';
 				menuList: [],
 				selectedMenuIndex: 0,
 				scrollTopList: null,
+				scrollInterval: null,
 			}
 		},
 		methods: {
@@ -48,7 +49,8 @@ import { setInterval, clearInterval } from 'timers';
 				let _y = element.scrollTop
 				let distance = y - _y
 				let i = 1
-				var interval = setInterval(() => {
+				clearInterval(this.scrollInterval)
+				this.scrollInterval = setInterval(() => {
 					i ++
 					if(i>60) clearInterval(interval)
 					let position = this.easeOut(i/60)
