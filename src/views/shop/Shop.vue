@@ -26,13 +26,13 @@
 		</section>
 		<nav class="shop-nav">
 			<span 	
-				:class="{'active': this.$route.path.indexOf('shoplist') !== -1}"	
+				:class="{'active': this.isRouteInclude('shoplist')}"	
 				@click="linkTo('shoplist')">点餐</span>
 			<span 
-				:class="{'active': this.$route.path.indexOf('rating') !== -1}"	
+				:class="{'active': this.isRouteInclude('rating')}"	
 				@click="linkTo('rating')">评价</span>
 			<span 
-				:class="{'active': this.$route.path.indexOf('shopkeeper') !== -1}"
+				:class="{'active': this.isRouteInclude('shopkeeper')}"
 				@click="linkTo('shopkeeper')">商家</span>
 		</nav>
 		<router-view></router-view>
@@ -53,13 +53,11 @@ export default {
 		return {
 			imgBaseUrl: '//elm.cangdu.org/img/',
 			//店铺相关info
-			shopId: 1,
+			shopId: 3269,
 			latitude: 29.133253,
 			longitude: 119.641724,
 			//获取商铺信息
 			shopDetailData: [],
-			//获取商铺食品列表
-			menuList: [],
 			//评论列表
 			ratingList: [],
 			//商铺评论详情
@@ -72,8 +70,6 @@ export default {
 		async initData() {
 			//获取商铺信息
 			this.shopDetailData = await this.$api.shopDetails(this.shopId, this.latitude, this.longitude);
-			//获取商铺食品列表
-			this.menuList = await this.$api.foodMenu(this.shopId);
 			//评论列表
 			this.ratingList = await this.$api.getRatingList(this.shopId, this.ratingOffset);
 			//商铺评论详情
@@ -85,10 +81,14 @@ export default {
 		},
 		linkTo(target) {
 			this.$router.replace(`/Shop/${target}`)
+		},
+		isRouteInclude(param) {
+			return  this.$route.path.indexOf(param) !== -1
 		}
 	},
 	mounted() {
 		this.initData()
+		console.log("this.$route.path",this.$route.path)
 	}
 }
 </script>
@@ -97,6 +97,7 @@ export default {
 @import '../../style/mixin.scss';
 
 .shop {
+	overflow-y: scroll;
 	&-header {
 		height: 115px;
 		background: url('../../assets/bgimg.jpg') no-repeat;

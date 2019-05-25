@@ -119,10 +119,10 @@ export default new Router({
       children: [
         {
           path: '/',
-          redirect: '/Shop/shopList'
+          redirect: '/Shop/shoplist'
         },
         {
-          path: '/Shop/shopList',
+          path: '/Shop/shoplist',
           name: 'shopList',
           component: () => import('./views/shop/children/shoplist.vue')
         },
