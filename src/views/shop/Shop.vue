@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="shop"  ref="shop" @scroll="onScrollOfShop">
 		<header class="shop-header">
 			<icon-base iconColor="#fff" width="20" height="20" class="back">
 				<icon-back ></icon-back>
@@ -43,6 +43,8 @@
 import iconBase from '../../components/IconBase'
 import iconBack from '../../components/icons/IconBack'
 import iconTriangle from '../../components/icons/IconTriangle'
+import {mapMutations} from 'vuex'
+
 export default {
 	components: {
 		iconBase,
@@ -69,26 +71,32 @@ export default {
 	methods: {
 		async initData() {
 			//获取商铺信息
-			this.shopDetailData = await this.$api.shopDetails(this.shopId, this.latitude, this.longitude);
+			this.shopDetailData = await this.$api.shopDetails(this.shopId, this.latitude, this.longitude)
 			//评论列表
-			this.ratingList = await this.$api.getRatingList(this.shopId, this.ratingOffset);
+			this.ratingList = await this.$api.getRatingList(this.shopId, this.ratingOffset)
 			//商铺评论详情
-			this.ratingScoresData = await this.$api.ratingScores(this.shopId);
+			this.ratingScoresData = await this.$api.ratingScores(this.shopId)
 			//评论Tag列表
-			this.ratingTagsList = await this.$api.ratingTags(this.shopId);
-			console.log(this.shopDetailData)
-			console.log(this)
+			this.ratingTagsList = await this.$api.ratingTags(this.shopId)
 		},
+		...mapMutations(["TURN_SHOPLIST_SCROLL_ON","TURN_SHOPLIST_SCROLL_OFF"]),
 		linkTo(target) {
 			this.$router.replace(`/Shop/${target}`)
 		},
 		isRouteInclude(param) {
 			return  this.$route.path.indexOf(param) !== -1
+		},
+		onScrollOfShop(e) {
+			let scrollTop = e.target.scrollTop
+			if(scrollTop > 200) {
+				this.TURN_SHOPLIST_SCROLL_ON()
+			}else {
+				this.TURN_SHOPLIST_SCROLL_OFF()
+			}
 		}
 	},
 	mounted() {
 		this.initData()
-		console.log("this.$route.path",this.$route.path)
 	}
 }
 </script>
@@ -98,6 +106,8 @@ export default {
 
 .shop {
 	overflow-y: scroll;
+	height:667px;
+	-webkit-overflow-scrolling: touch;
 	&-header {
 		height: 115px;
 		background: url('../../assets/bgimg.jpg') no-repeat;

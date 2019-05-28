@@ -26,6 +26,13 @@
 	white-space: nowrap;
 }
 
+@mixin text-ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+
 @mixin devborder() {
 	border: 1px solid red;
 }
