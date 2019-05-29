@@ -82,15 +82,9 @@
 			</section>
 		</main>
 		<transition name="fade">
-			<div class="search-confirm-wrap" v-if="confirm">
-				<div class="search-confirm">
-					<h4 class="search-confirm-title">确认删除全部历史记录?</h4>
-					<div class="search-confirm-btn">
-						<div class="search-confirm-text" @click="handleConfirm(true)">确认</div>			
-						<div class="search-confirm-text" @click="handleConfirm(false)">取消</div>	
-					</div>
-				</div>		
-			</div>
+			<component-confirm text="确认删除全部历史记录?" v-if="confirm" @handleConfirm="handleConfirm">
+				
+			</component-confirm>
 		</transition>
 	</div>
 </template>
@@ -99,6 +93,7 @@
 import {mapState} from 'vuex'
 import {searchRestaurant, shopList} from '../serviece/getData.js'
 import {getStore, setStore, removeStore} from '../config/mUtils.js'
+import componentConfirm from '@/components/common/component-confirm.vue'
 
 export default {
 	data() {
@@ -113,6 +108,9 @@ export default {
 			searchHistory: [],
 			confirm: false,
 		}
+	},
+	components: {
+		componentConfirm,
 	},
 	computed: {
 		...mapState(['geohash'])
@@ -329,51 +327,7 @@ export default {
 						}
 					}
 				}
-
-			}
-
-			&-confirm-wrap {
-				position: fixed;
-				left: 0;
-				top: 0;
-				background-color: rgba(0,0,0,.3);
-				width: 375px;
-				height: 667px;
-				z-index: 999;
-				@include fj(space-around);
-				align-items: center;
-			}
-			&-confirm {
-				border-radius: 8px;
-				background-color: #fff;
-				@include wh(275px, 100px);
-				@include fj(flex-start);
-				align-items: center;
-				flex-direction: column;
-				&-title {
-					@include sclh(20px,#000, 60px);
-					font-weight: 600;
-					height: 60px;
-				}
-				&-btn {
-					flex-grow: 1;
-					@include fj;
-					width: 275px;
-					border-top: .5px solid $bdc;
-				}
-				&-text {
-					&:nth-of-type(1) {
-						border-right: .5px solid $bdc;
-					}
-					flex-grow: 1;
-					@include sclh(20px, $blue);
-					@include fj(space-around);
-					align-items: center;
-					font-weight: 500;
-				}
 			}
 		}
-
-		@include fade;
 	}
 </style>
