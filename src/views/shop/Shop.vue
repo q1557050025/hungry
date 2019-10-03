@@ -1,9 +1,18 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-19 08:43:48
+ * @LastEditTime: 2019-08-15 09:26:46
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
 	<div class="shop"  ref="shop" @scroll="onScrollOfShop">
 		<header class="shop-header">
-			<icon-base iconColor="#fff" width="20" height="20" class="back">
-				<icon-back ></icon-back>
-			</icon-base>
+			<span	@click="goBack">
+				<icon-base iconColor="#fff" width="20" height="20" class="back" >
+					<icon-back ></icon-back>
+				</icon-base>
+			</span>
 			<img :src="imgBaseUrl + shopDetailData.image_path" class="img" v-if="shopDetailData.image_path">
 		</header>
 		<section class="shop-info">
@@ -93,6 +102,9 @@ export default {
 			}else {
 				this.TURN_SHOPLIST_SCROLL_OFF()
 			}
+		},
+		goBack(){
+			this.$router.go(-1)
 		}
 	},
 	mounted() {

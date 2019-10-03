@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-04-14 21:20:46
+ * @LastEditTime: 2019-08-20 20:04:30
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div>
     <Header :headerOptions="headerOptions"></Header>
@@ -20,7 +27,7 @@
         <h4 class="hot_city_title">热门城市</h4>
         <router-link 
           v-for="(hotCity, index) in hotCities" :key="index"
-          tag="li"
+          tag="li" 
           :to="'/city/'+ hotCity.id">
             {{hotCity.name}}
           </router-link>
@@ -79,7 +86,9 @@ export default {
 			//   // 数据全部加载完成
       if (this.asyncCityGroup[this.asyncCityGroup.length - 1].key === 'Z') {
         this.finished = true;
-			}
+      }
+      
+      console.log(this.asyncCityGroup)
 		},
     sortedCityGroup() {
       let res = []
@@ -100,6 +109,7 @@ export default {
   mounted() {
     hotCities().then(res => {
       this.hotCities = res
+      console.log(res,"qqqqqq")
     })
     cityGuess().then(res => {
       this.cityGuess = res.name

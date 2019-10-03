@@ -293,7 +293,6 @@
 				this.confirm = true
 			},
 			handleConfirm(boolen) {
-				console.log(111)
 				if(boolen) {
 					this.foodList[this.shopId] = {}
 					this.isCartShow = false
